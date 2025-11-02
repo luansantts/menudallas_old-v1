@@ -1,18 +1,64 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Flex, Text, Icon } from "@chakra-ui/react";
+import { FiClock } from "react-icons/fi";
+import React from "react";
 
-function StatusStore({ status = 1 }) {
+function StatusStore({ status = 1, variant = "classic" }) {
+  const isOpen = status === true || status === 1;
+  const isClosed = !isOpen;
+  const stateColor = isClosed ? "#DC2626" : "#059669";
+
+  if (variant === "pill") {
     return (
-        <Flex alignItems='center' w='min-content' borderRadius='18.5px' bg={status == 0 ? '#eed3d7' : '#ecfbf3'} padding='0px 10px' h='34px' color={status == 0 ? '#c90000' : '#468847'} fontSize='xs' fontWeight={400}>
-            <Box animation='btn-pisca 1s linear infinite' css={`
-                        @keyframes btn-pisca {
-                            0% { opacity: 0; }
-                            50% { opacity: 0.5; }
-                            100% { opacity: 1; }
-                        }`} mr='7px' w='9px' minW='9px' h='9px' bg={status == 0 ? '#c90000' : '#468847'} borderRadius='50px'></Box>
-            <Text>{status == 0 ? 'Fechado' : 'Aberto'}</Text>
-        </Flex>
-    )
+      <Flex
+        alignItems="center"
+        borderRadius="999px"
+        px="14px"
+        py="6px"
+        bg={isClosed ? "#FEF2F2" : "#ECFDF5"}
+        color={stateColor}
+        fontSize="sm"
+        fontWeight={600}
+        minH="38px"
+      >
+        <Box
+          mr="6px"
+          w="8px"
+          h="8px"
+          borderRadius="full"
+          bg={stateColor}
+          animation="btn-pisca 1s linear infinite"
+          css={`
+            @keyframes btn-pisca {
+              0% {
+                opacity: 0.2;
+              }
+              50% {
+                opacity: 1;
+              }
+              100% {
+                opacity: 0.2;
+              }
+            }
+          `}
+        />
+        <Text>{isClosed ? "Fechado" : "Aberto"}</Text>
+      </Flex>
+    );
+  }
+
+  return (
+    <Flex
+      alignItems="center"
+      gap="4px"
+      bg="transparent"
+      color={isClosed ? "#DC2626" : "#059669"}
+      fontSize="15px"
+      fontWeight={500}
+    >
+      <Icon as={FiClock} fontSize="15px" />
+      <Text>{isClosed ? "Fechado" : "Aberto"}</Text>
+    </Flex>
+  );
 }
 
-export default StatusStore
+export default StatusStore;
